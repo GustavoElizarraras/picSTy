@@ -1,0 +1,56 @@
+{
+    "name": "Go",
+    "dockerComposeFile": ["../../docker-compose.yml"],
+    "service": "golang",
+    "workspaceFolder": "/picSTy/go_web",
+    // "runArgs": [
+    //     "--cap-add=SYS_PTRACE",
+    //     "--security-opt",
+    //     "seccomp=unconfined"
+    // ],
+    // Set *default* container specific settings.json values on container create.
+    "settings": {
+        "go.toolsManagement.checkForUpdates": "local",
+        "go.gopath": "/go",
+        "go.useLanguageServer": true,
+        // "go.install.tools": true,
+        "workbench.colorTheme": "Night Owl",
+        "workbench.iconTheme": "Sweet vscode Icons",
+        "gopls": {
+            "usePlaceholders": false,
+            "staticcheck": true
+        },
+        "go.autocompleteUnimportedPackages": true,
+        "go.gotoSymbol.includeImports": true,
+        "go.gotoSymbol.includeGoroot": true,
+        "go.lintTool": "golangci-lint",
+        "go.buildOnSave": "workspace",
+        "go.lintOnSave": "workspace",
+        "go.vetOnSave": "workspace",
+        "editor.formatOnSave": true,
+        "go.toolsEnvVars": {
+            "GOFLAGS": "-tags=",
+            "CGO_ENABLED": 1 // for the race detector
+        },
+        "gopls.env": {
+            "GOFLAGS": "-tags="
+        },
+        "go.testEnvVars": {
+            "": "",
+        },
+        "go.testFlags": [
+            "-v",
+            "-race"
+        ],
+    },
+    // Add the IDs of extensions you want installed when the container is created.
+    "extensions": [
+        "golang.Go",
+        "sdras.night-owl",
+        "eamodio.gitlens",
+        "eliverlara.sweet-vscode-icons"
+    ],
+    "forwardPorts": [8080, 443, 8888],
+
+    "postCreateCommand": "bash .devcontainer/go_extensions.sh"
+}

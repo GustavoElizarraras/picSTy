@@ -1,0 +1,7 @@
+tensorflow==2.5.0
+numpy==1.19.4
+pylint
+pandas==1.3.0
+matplotlib==3.4.2
+seaborn
+# opencv-python==4.5.3.56
