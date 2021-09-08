@@ -1,0 +1,26 @@
+.UploadB {
+    border: 2px solid #000000;
+    color: rgb(0, 0, 0);
+    background:#FFEDDA ;
+    padding: 10px 20px;
+    border-radius: 3px;
+    text-align: center;
+    margin: auto;
+}
+.UploadB:hover {
+    background: #3DB2FF;
+}
+.UploadB:active {
+    background: #23689B;
+}
+
+input[type=file] {
+    display: none
+}
+
+.column {
+    float:left;
+    /* background-color: #f1f1f1; */
+    font-size: 30px;
+    text-align-last: center;
+  }

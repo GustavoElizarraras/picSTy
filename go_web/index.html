@@ -5,15 +5,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>picSTy</title>
 </head>
 
 <body>
     <p>Hello world</p>
-    <form method="POST" action="/" enctype="multipart/form-data">
-        <input type="file" name='imgFile' accept=".jpg, .png">
-        <input type="submit" value='upload'>
-    </form>
+
+    <div class="column" style="width: 40%">
+        <form method="POST" action="/" enctype="multipart/form-data">
+            <label for="pic_upload" class="UploadB">
+                &#10548;&#128248;
+            </label>
+            <input id="pic_upload" type="file" name='imgFile' accept=".jpg, .png">
+            <input type="submit" value='Style it!'>
+        </form>
+    </div>
+    <div class="column" style="width: 60%; background: #23689B">
+        This is for art pictures
+    </div>
+
 </body>
 
 </html>
