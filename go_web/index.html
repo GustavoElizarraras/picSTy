@@ -12,9 +12,9 @@
 <body>
     <h1>Welcome to picSTy</h1>
 
-    <div class="column" style="width: 40%; background: #f0a9d2">
+    <div class="column" style="width: 34%; background: #f0a9d2">
         <form method="POST" action="/upload" enctype="multipart/form-data">
-            <label for="pic_upload" class="UploadB">
+            <label for="pic_upload" class="UploadB" style="font-size: 2em;">
                 &#10548;&#128248;
             </label>
             <input id="pic_upload" type="file" name='imgFile' accept=".jpg, .png" onchange="loadFile(event)">
@@ -29,15 +29,50 @@
                     }
                 };
             </script>
-            <br><br>
+            <br>
             <label for="submit_pic" class="SubmitB">
                 Style it!
             </label>
             <input type="submit" id="submit_pic">
         </form>
     </div>
-    <div class="column" style="width: 60%; background: #fffabb">
-        This is for art pictures
+    <div class="column" style="width: 54%; background: #fffabb">
+        <p>Select your favorite art picture</p>
+        <form action="/art">
+            <label>
+                <input type="radio" id="1" name="one" value="im1">
+                <img src="test/unnamed.jpg">
+            </label>
+            <label>
+                <input type="radio" id="1" name="one" value="im1">
+                <img src="test/unnamed.jpg">
+            </label>
+            <label>
+                <input type="radio" id="1" name="one" value="im1">
+                <img src="test/unnamed.jpg">
+            </label>
+            <label>
+                <input type="radio" id="1" name="one" value="im1">
+                <img src="test/unnamed.jpg">
+            </label>
+            <label>
+                <input type="radio" id="1" name="one" value="im1">
+                <img src="test/unnamed.jpg">
+            </label>
+            <label>
+                <input type="radio" id="1" name="one" value="im1">
+                <img src="test/unnamed.jpg">
+            </label>
+            <label>
+                <input type="radio" id="1" name="one" value="im1">
+                <img src="test/unnamed.jpg">
+            </label>
+            <label>
+                <input type="radio" id="1" name="one" value="im1">
+                <img src="test/unnamed.jpg">
+            </label>
+        </form>
+
     </div>
 
 </body>

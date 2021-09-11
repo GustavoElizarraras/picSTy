@@ -2,7 +2,7 @@
     border: 2px solid #000000;
     color: rgb(0, 0, 0);
     background:#FFEDDA ;
-    padding: 20px 20px;
+    padding: 0.6em;
     border-radius: 11px;
 }
 .UploadB:hover {
@@ -10,7 +10,7 @@
 }
 .UploadB:active {
     background: #23689B;
-    padding: 15px 15px;
+    padding: 0.45em;
     border-radius: 8px;
 }
 
@@ -31,16 +31,36 @@
     font-family: Brush Script MT, Brush Script Std, cursive;
 }
 
-input[type=file], input[type=submit]{
-    display: none;
+[type=radio] + img {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    cursor: pointer;
+    max-width: 28%; 
+    width: 100%;
+    padding: 0.3em;
+    margin-left: 0.6em;
+    margin-right: 0.6em;
+}
+
+[type=radio]:checked + img {
+    box-shadow: 0em 0em 0.75em 0 rgb(44, 255, 55);
+    /* outline: 10px solid rgba(116, 255, 24, 0.993); */
+  }
+
+input[type=file], input[type=submit], input[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
 }
 
 .column {
     float:left;
-    font-size: 30px;
     text-align-last: center;
     border-radius: 10px;
     height: 75vh;
+    padding: 3%;
 }
 
 form {
@@ -67,4 +87,5 @@ h1 {
     margin-top: 1em;
     max-width: 80%; 
     width: 100%;
+    padding: 0.8em;
 } 
