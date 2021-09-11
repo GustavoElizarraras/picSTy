@@ -2,18 +2,37 @@
     border: 2px solid #000000;
     color: rgb(0, 0, 0);
     background:#FFEDDA ;
-    padding: 10px 20px;
-    border-radius: 3px;
+    padding: 20px 20px;
+    border-radius: 11px;
 }
 .UploadB:hover {
     background: #3DB2FF;
 }
 .UploadB:active {
     background: #23689B;
+    padding: 15px 15px;
+    border-radius: 8px;
 }
 
-input[type=file] {
-    display: none
+.SubmitB {
+    border: 2px solid #000000;
+    color: rgb(0, 0, 0);
+    background:#FFEDDA;
+    padding: 15px 20px;
+    border-radius: 11px;
+}
+.SubmitB:hover {
+    background: #3DB2FF;
+}
+.SubmitB:active {
+    background: #b42c4ee5;
+    padding: 13px 12px;
+    border-radius: 8px;
+    font-family: Brush Script MT, Brush Script Std, cursive;
+}
+
+input[type=file], input[type=submit]{
+    display: none;
 }
 
 .column {
@@ -23,6 +42,11 @@ input[type=file] {
     border-radius: 10px;
     height: 75vh;
 }
+
+form {
+    padding-bottom: 10%;
+    margin-top: 1em;
+  }
 
 h1 { 
     color: #000000;
@@ -38,3 +62,9 @@ h1 {
     border-radius: 10px;
     height: 15vh;
 }
+
+.prev_img {
+    margin-top: 1em;
+    max-width: 80%; 
+    width: 100%;
+} 

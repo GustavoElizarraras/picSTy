@@ -17,8 +17,23 @@
             <label for="pic_upload" class="UploadB">
                 &#10548;&#128248;
             </label>
-            <input id="pic_upload" type="file" name='imgFile' accept=".jpg, .png">
-            <input type="submit" value='Style it!'>
+            <input id="pic_upload" type="file" name='imgFile' accept=".jpg, .png" onchange="loadFile(event)">
+            <br>
+            <img id="output" class="prev_img" />
+            <script>
+                var loadFile = function (event) {
+                    var output = document.getElementById('output');
+                    output.src = URL.createObjectURL(event.target.files[0]);
+                    output.onload = function () {
+                        URL.revokeObjectURL(output.src) // free memory
+                    }
+                };
+            </script>
+            <br><br>
+            <label for="submit_pic" class="SubmitB">
+                Style it!
+            </label>
+            <input type="submit" id="submit_pic">
         </form>
     </div>
     <div class="column" style="width: 60%; background: #fffabb">
