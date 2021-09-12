@@ -12,8 +12,8 @@
 <body>
     <h1>Welcome to picSTy</h1>
 
-    <div class="column" style="width: 34%; background: #f0a9d2">
-        <form method="POST" action="/u" enctype="multipart/form-data" id="submit_pic">
+    <form method="POST" enctype="multipart/form-data" id="submit_pic" action="/u">
+        <div class="column" style="width: 34%; background: #f0a9d2">
             <label for="pic_upload" class="UploadB" style="font-size: 2em;">
                 &#10548;&#128248;
             </label>
@@ -33,18 +33,10 @@
             <label for="submit_button" class="SubmitB">
                 Style it!
             </label>
-            <button type="button" onclick="submitForms()" id="submit_button">
-                <script>
-                    submitForms = function () {
-                        document.getElementById("submit_pic").submit();
-                        document.getElementById("select_artwork").submit();
-                    }
-                </script>
-        </form>
-    </div>
-    <div class="column" style="width: 54%; background: #fffabb">
-        <p>Select your favorite art picture</p>
-        <form method="POST" id="select_artwork" action="/u">
+            <input type="submit" id="submit_button">
+        </div>
+        <div class="column" style="width: 54%; background: #fffabb">
+            <p>Select your favorite art picture</p>
             <label>
                 <input type="radio" id="1" name="art" value="alebrijes">
                 <img src="artworks/alebrijes.jpg">
@@ -81,9 +73,9 @@
                 <input type="radio" id="9" name="art" value="vetheuil">
                 <img src="artworks/vetheuil.jpg">
             </label>
-        </form>
+        </div>
+    </form>
 
-    </div>
 
 </body>
 

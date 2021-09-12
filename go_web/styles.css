@@ -49,7 +49,7 @@
     /* outline: 10px solid rgba(116, 255, 24, 0.993); */
   }
 
-input[type=file], button[type=button], input[type=radio] {
+input[type=file], input[type=submit], input[type=radio] {
     position: absolute;
     opacity: 0;
     width: 0;

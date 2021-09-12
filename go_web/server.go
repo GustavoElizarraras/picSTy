@@ -24,14 +24,13 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 	defer f.Close()
 	io.Copy(f, file)
-}
 
-func selectArtwork(w http.ResponseWriter, r *http.Request) {
 	artworks := []string{
 		"alebrijes", "estanque", "guernica",
 		"maya", "mountains", "ninth",
 		"starry", "swing", "vetheuil",
 	}
+
 	r.ParseForm()
 	for _, s := range artworks {
 		if s == r.Form.Get("art") {
@@ -41,7 +40,26 @@ func selectArtwork(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println("no vl")
+
 }
+
+// func selectArtwork(w http.ResponseWriter, r *http.Request) {
+// 	artworks := []string{
+// 		"alebrijes", "estanque", "guernica",
+// 		"maya", "mountains", "ninth",
+// 		"starry", "swing", "vetheuil",
+// 	}
+
+// 	r.ParseForm()
+// 	for _, s := range artworks {
+// 		if s == r.Form.Get("art") {
+
+// 			fmt.Println(s)
+// 		}
+// 	}
+
+// 	fmt.Println("no vl")
+// }
 
 func main() {
 
@@ -54,8 +72,8 @@ func main() {
 	}
 
 	http.Handle("/", http.FileServer(http.Dir(".")))
-	// http.HandleFunc("/", uploadImage)
-	http.HandleFunc("/u", selectArtwork)
+	http.HandleFunc("/u", uploadImage)
+	// http.HandleFunc("/u", selectArtwork)
 	err := s.ListenAndServe()
 	if err != nil {
 		if err != http.ErrServerClosed {
