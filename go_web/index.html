@@ -13,7 +13,7 @@
     <h1>Welcome to picSTy</h1>
 
     <div class="column" style="width: 34%; background: #f0a9d2">
-        <form method="POST" action="/upload" enctype="multipart/form-data">
+        <form method="POST" action="/upload" enctype="multipart/form-data" id="submit_pic">
             <label for="pic_upload" class="UploadB" style="font-size: 2em;">
                 &#10548;&#128248;
             </label>
@@ -30,55 +30,55 @@
                 };
             </script>
             <br>
-            <label for="submit_pic" class="SubmitB">
+            <label for="submit_button" class="SubmitB">
                 Style it!
             </label>
-            <input type="submit" id="submit_pic" onclick="submitForms()">
-            <script>
-                submitForms = function () {
-                    document.getElementById("submit_pic").submit();
-                    document.getElementById("pic_upload").submit();
-                }
-            </script>
+            <button type="button" onclick="submitForms()" id="submit_button">
+                <script>
+                    submitForms = function () {
+                        document.getElementById("submit_pic").submit();
+                        document.getElementById("select_artwork").submit();
+                    }
+                </script>
         </form>
     </div>
     <div class="column" style="width: 54%; background: #fffabb">
         <p>Select your favorite art picture</p>
-        <form action="/art">
+        <form method="GET" action="/art" id="select_artwork">
             <label>
                 <input type="radio" id="1" name="art" value="alebrijes">
                 <img src="artworks/alebrijes.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="art" value="estanque">
+                <input type="radio" id="2" name="art" value="estanque">
                 <img src="artworks/estanque.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="art" value="guernica">
+                <input type="radio" id="3" name="art" value="guernica">
                 <img src="artworks/guernica.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="art" value="maya">
+                <input type="radio" id="4" name="art" value="maya">
                 <img src="artworks/maya.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="art" value="mountains">
+                <input type="radio" id="5" name="art" value="mountains">
                 <img src="artworks/mountains.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="art" value="ninth">
+                <input type="radio" id="6" name="art" value="ninth">
                 <img src="artworks/ninth.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="art" value="starry">
+                <input type="radio" id="7" name="art" value="starry">
                 <img src="artworks/starry.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="art" value="swing">
+                <input type="radio" id="8" name="art" value="swing">
                 <img src="artworks/swing.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="art" value="vetheuil">
+                <input type="radio" id="9" name="art" value="vetheuil">
                 <img src="artworks/vetheuil.jpg">
             </label>
         </form>

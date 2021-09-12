@@ -8,27 +8,7 @@ import (
 	"time"
 )
 
-// type HelloHandler struct{}
-
-// func (hh HelloHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-// 	w.Write([]byte("Hello!\n"))
-// }
-
-// type Page struct{
-// 	Title string
-// 	Body []byte
-// }
-
-// func loadPage(title string) {
-
-// }
-
-// func picstyHandler(w http.ResponseWriter, r *http.Request) {
-// 	// picsty, _:= ioutil.ReadFile("index.html")
-// 	t, _ := template.ParseFiles("index.html")
-// }
-
-// Uploading image
+// Uploading user image
 func uploadImage(w http.ResponseWriter, r *http.Request) {
 	r.ParseMultipartForm(32 << 20)
 	file, handler, err := r.FormFile("imgFile")
@@ -46,6 +26,23 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	io.Copy(f, file)
 }
 
+func selectArtwork(w http.ResponseWriter, r *http.Request) {
+	artworks := []string{
+		"alebrijes", "estanque", "guernica",
+		"maya", "mountains", "ninth",
+		"starry", "swing", "vetheuil",
+	}
+
+	for x, s := range artworks {
+		fmt.Println(s)
+		fmt.Println(x)
+		// if s == r.Form.Get("art") {
+		// }
+	}
+
+	fmt.Println("no vl")
+}
+
 func main() {
 
 	s := http.Server{
@@ -59,6 +56,7 @@ func main() {
 
 	http.Handle("/", http.FileServer(http.Dir(".")))
 	http.HandleFunc("/upload", uploadImage)
+	http.HandleFunc("/art", selectArtwork)
 	err := s.ListenAndServe()
 	if err != nil {
 		if err != http.ErrServerClosed {
