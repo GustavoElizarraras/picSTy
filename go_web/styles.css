@@ -36,11 +36,12 @@
     transition: 0.3s;
     border-radius: 5px;
     cursor: pointer;
-    max-width: 28%; 
-    width: 100%;
-    padding: 0.3em;
-    margin-left: 0.6em;
-    margin-right: 0.6em;
+    max-width: 29%; 
+    width: 14.5em;
+    height: 7.5em;
+    padding: 0.2em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
 
 [type=radio]:checked + img {
@@ -71,7 +72,7 @@ form {
 h1 { 
     color: #000000;
     font-family: 'Droid serif', serif;  
-    font-size: 5em; 
+    font-size: 4em; 
     font-weight: normal; 
     line-height: 50%; 
     margin: 1vh 0 1vh; 
@@ -80,7 +81,7 @@ h1 {
     padding-top: 2%;
     background-color: #0779E4;
     border-radius: 10px;
-    height: 15vh;
+    height: 12vh;
 }
 
 .prev_img {

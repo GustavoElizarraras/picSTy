@@ -33,43 +33,53 @@
             <label for="submit_pic" class="SubmitB">
                 Style it!
             </label>
-            <input type="submit" id="submit_pic">
+            <input type="submit" id="submit_pic" onclick="submitForms()">
+            <script>
+                submitForms = function () {
+                    document.getElementById("submit_pic").submit();
+                    document.getElementById("pic_upload").submit();
+                }
+            </script>
         </form>
     </div>
     <div class="column" style="width: 54%; background: #fffabb">
         <p>Select your favorite art picture</p>
         <form action="/art">
             <label>
-                <input type="radio" id="1" name="one" value="im1">
-                <img src="test/unnamed.jpg">
+                <input type="radio" id="1" name="art" value="alebrijes">
+                <img src="artworks/alebrijes.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="one" value="im1">
-                <img src="test/unnamed.jpg">
+                <input type="radio" id="1" name="art" value="estanque">
+                <img src="artworks/estanque.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="one" value="im1">
-                <img src="test/unnamed.jpg">
+                <input type="radio" id="1" name="art" value="guernica">
+                <img src="artworks/guernica.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="one" value="im1">
-                <img src="test/unnamed.jpg">
+                <input type="radio" id="1" name="art" value="maya">
+                <img src="artworks/maya.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="one" value="im1">
-                <img src="test/unnamed.jpg">
+                <input type="radio" id="1" name="art" value="mountains">
+                <img src="artworks/mountains.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="one" value="im1">
-                <img src="test/unnamed.jpg">
+                <input type="radio" id="1" name="art" value="ninth">
+                <img src="artworks/ninth.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="one" value="im1">
-                <img src="test/unnamed.jpg">
+                <input type="radio" id="1" name="art" value="starry">
+                <img src="artworks/starry.jpg">
             </label>
             <label>
-                <input type="radio" id="1" name="one" value="im1">
-                <img src="test/unnamed.jpg">
+                <input type="radio" id="1" name="art" value="swing">
+                <img src="artworks/swing.jpg">
+            </label>
+            <label>
+                <input type="radio" id="1" name="art" value="vetheuil">
+                <img src="artworks/vetheuil.jpg">
             </label>
         </form>
 
