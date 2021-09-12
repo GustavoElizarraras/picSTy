@@ -13,7 +13,7 @@
     <h1>Welcome to picSTy</h1>
 
     <div class="column" style="width: 34%; background: #f0a9d2">
-        <form method="POST" action="/upload" enctype="multipart/form-data" id="submit_pic">
+        <form method="POST" action="/u" enctype="multipart/form-data" id="submit_pic">
             <label for="pic_upload" class="UploadB" style="font-size: 2em;">
                 &#10548;&#128248;
             </label>
@@ -44,7 +44,7 @@
     </div>
     <div class="column" style="width: 54%; background: #fffabb">
         <p>Select your favorite art picture</p>
-        <form method="GET" action="/art" id="select_artwork">
+        <form method="POST" id="select_artwork" action="/u">
             <label>
                 <input type="radio" id="1" name="art" value="alebrijes">
                 <img src="artworks/alebrijes.jpg">

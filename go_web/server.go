@@ -32,12 +32,12 @@ func selectArtwork(w http.ResponseWriter, r *http.Request) {
 		"maya", "mountains", "ninth",
 		"starry", "swing", "vetheuil",
 	}
+	r.ParseForm()
+	for _, s := range artworks {
+		if s == r.Form.Get("art") {
 
-	for x, s := range artworks {
-		fmt.Println(s)
-		fmt.Println(x)
-		// if s == r.Form.Get("art") {
-		// }
+			fmt.Println(s)
+		}
 	}
 
 	fmt.Println("no vl")
@@ -51,12 +51,11 @@ func main() {
 		ReadTimeout:  30 * time.Second,
 		WriteTimeout: 90 * time.Second,
 		IdleTimeout:  120 * time.Second,
-		// Handler:      HelloHandler{},
 	}
 
 	http.Handle("/", http.FileServer(http.Dir(".")))
-	http.HandleFunc("/upload", uploadImage)
-	http.HandleFunc("/art", selectArtwork)
+	// http.HandleFunc("/", uploadImage)
+	http.HandleFunc("/u", selectArtwork)
 	err := s.ListenAndServe()
 	if err != nil {
 		if err != http.ErrServerClosed {
