@@ -5,7 +5,7 @@ import tensorflow as tf
 import sys
 import os
 # os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 def load_image(path):
     img = tf.io.read_file(path)
     img = tf.image.decode_image(img, channels = 3)
@@ -15,9 +15,10 @@ def load_image(path):
 
 def main():
 
-    processed_path = '../go_web/processed_image' + sys.argv[1]
     uploaded_image = sys.argv[1]
     selected_artwork = sys.argv[2]
+    name_processed = sys.argv[1].split('/')[-1]
+    processed_path = '../go_web/processed_image/' + name_processed.split('.')[0] + '.png'
     model = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2')
     content = load_image(uploaded_image)
     style = load_image(selected_artwork)
