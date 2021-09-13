@@ -11,6 +11,11 @@ import (
 
 // Uploading user image
 func uploadImage(w http.ResponseWriter, r *http.Request) {
+	var (
+		selectedImg string
+		uploadedImg string
+	)
+
 	// Getting the user file
 	r.ParseMultipartForm(32 << 20)
 	// Form with name=imgFile
@@ -22,14 +27,14 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	defer file.Close()
 	fmt.Fprintf(w, "%v", handler.Header)
 	// Coping the uploaded file into the server
-	f, err := os.OpenFile("./test/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+	f, err := os.OpenFile("./client_upload/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 	defer f.Close()
 	io.Copy(f, file)
-
+	uploadedImg = "../client_upload/" + handler.Filename
 	// Processing which artwork will work with the style transfer
 	artworks := []string{
 		"alebrijes", "estanque", "guernica",
@@ -37,16 +42,13 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 		"starry", "swing", "vetheuil",
 	}
 
-	var selectedImg string
-
 	r.ParseForm()
 	for _, s := range artworks {
 		if s == r.Form.Get("art") {
-			selectedImg = s
+			selectedImg = "../artwork/" + s + ".jpg"
 		}
 	}
-
-	exec.Command("python3", "st_execute.py", selectedImg)
+	exec.Command("python3", "st_execute.py", selectedImg, uploadedImg)
 
 }
 
