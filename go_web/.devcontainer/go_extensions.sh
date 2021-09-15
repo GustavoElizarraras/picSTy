@@ -1,4 +1,5 @@
 #!bin/sh
+export GO111MODULE=off
 go get -v golang.org/x/tools/gopls
 go get -v github.com/ramya-rao-a/go-outline
 go get -v github.com/uudashr/gopkgs/v2/cmd/gopkgs
@@ -8,3 +9,4 @@ go get -v golang.org/x/tools/cmd/guru
 go get -v golang.org/x/tools/cmd/gorename
 go get -v github.com/fatih/gomodifytags
 go get -v github.com/josharian/impl
+go get -v github.com/melbahja/goph
