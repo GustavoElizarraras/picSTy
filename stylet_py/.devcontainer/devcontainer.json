@@ -30,7 +30,6 @@
         "eamodio.gitlens",
         "eliverlara.sweet-vscode-icons"
     ],
-    "forwardPorts": [8080, 443, 8888],
-
-    "postCreateCommand": "pip3 install -r .devcontainer/requirements.txt"
+    "forwardPorts": [8080, 443, 8888, 49086],
+    "postCreateCommand": "bash .devcontainer/run.sh"
 }
