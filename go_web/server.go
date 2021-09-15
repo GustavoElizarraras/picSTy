@@ -3,17 +3,30 @@ package main
 import (
 	"fmt"
 	"io"
+	"log"
 	"net/http" // Client type por make requests and receive responses
 	"os"
-	"os/exec"
+	"strings"
+	"text/template"
 	"time"
+
+	"github.com/melbahja/goph"
 )
+
+func format(s string, v interface{}) string {
+	t, b := new(template.Template), new(strings.Builder)
+	template.Must(t.Parse(s)).Execute(b, v)
+	return b.String()
+}
 
 // Uploading user image
 func uploadImage(w http.ResponseWriter, r *http.Request) {
 	var (
 		selectedImg string
 		uploadedImg string
+		files       string
+		command     string
+		// ssh         string
 	)
 
 	// Getting the user file
@@ -38,7 +51,7 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	// Processing which artwork will work with the style transfer
 	artworks := []string{
 		"alebrijes", "estanque", "guernica",
-		"maya", "mountains", "ninth",
+		"waterfall", "mountains", "ninth",
 		"starry", "swing", "vetheuil",
 	}
 
@@ -48,7 +61,28 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 			selectedImg = "../artwork/" + s + ".jpg"
 		}
 	}
-	exec.Command("python3", "st_execute.py", selectedImg, uploadedImg)
+
+	client, err := goph.New("root", "172.19.0.3", goph.Password(""))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer client.Close()
+	files = " " + uploadedImg + " " + selectedImg
+	command = format("python3 /picSTy/stylet_py/styling.py {{.}}", files)
+	// Execute your command.
+	_, err = client.Run(command)
+
+	// ssh = "sshpass -p 'root' ssh root@172.19.0.3"
+	// fmt.Println(uploadedImg, selectedImg, ssh)
+	// cmd := exec.Command("go", "version")
+	// cmd := exec.Command(ssh, "python3", "/picSTy/stylet_py/styling.py", uploadedImg, selectedImg)
+
+	// err = cmd.Run()
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 }
 
