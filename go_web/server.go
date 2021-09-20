@@ -38,7 +38,7 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 	// Closing the file
 	defer file.Close()
-	fmt.Fprintf(w, "%v", handler.Header)
+	// fmt.Fprintf(w, "%v", handler.Header)
 	// Coping the uploaded file into the server
 	f, err := os.OpenFile("./client_upload/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -47,7 +47,7 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 	defer f.Close()
 	io.Copy(f, file)
-	uploadedImg = "../client_upload/" + handler.Filename
+	uploadedImg = "/picSTy/go_web/client_upload/" + handler.Filename
 	// Processing which artwork will work with the style transfer
 	artworks := []string{
 		"alebrijes", "estanque", "guernica",
@@ -58,32 +58,39 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	for _, s := range artworks {
 		if s == r.Form.Get("art") {
-			selectedImg = "../artwork/" + s + ".jpg"
+			selectedImg = "/picSTy/go_web/artworks/" + s + ".jpg"
 		}
 	}
 
-	client, err := goph.New("root", "172.19.0.3", goph.Password(""))
+	files = uploadedImg + " " + selectedImg
+	fmt.Println(files)
+	var o []byte
+	client, err := goph.New("root", "172.19.0.3", goph.Password("root"))
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Println(client)
 	defer client.Close()
-	files = " " + uploadedImg + " " + selectedImg
 	command = format("python3 /picSTy/stylet_py/styling.py {{.}}", files)
 	// Execute your command.
-	_, err = client.Run(command)
-
-	// ssh = "sshpass -p 'root' ssh root@172.19.0.3"
-	// fmt.Println(uploadedImg, selectedImg, ssh)
-	// cmd := exec.Command("go", "version")
-	// cmd := exec.Command(ssh, "python3", "/picSTy/stylet_py/styling.py", uploadedImg, selectedImg)
-
-	// err = cmd.Run()
-
+	fmt.Println(command)
+	o, err = client.Run(command)
+	fmt.Println(string(o))
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	type Page struct {
+		Img string
+	}
+	x := Page{Img: strings.Split(handler.Filename, ".")[0]}
+	fmt.Println(x)
+	t, err := template.ParseFiles("template/styled.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	t.Execute(w, x)
 }
 
 func main() {
@@ -96,8 +103,11 @@ func main() {
 		IdleTimeout:  120 * time.Second,
 	}
 
-	http.Handle("/", http.FileServer(http.Dir(".")))
-	http.HandleFunc("/u", uploadImage)
+	fs := http.FileServer(http.Dir("."))
+
+	http.Handle("/", fs)
+
+	http.HandleFunc("/styled", uploadImage)
 	err := s.ListenAndServe()
 	if err != nil {
 		if err != http.ErrServerClosed {
@@ -106,3 +116,7 @@ func main() {
 	}
 
 }
+
+// func landingHandler(w http.ResponseWriter, r *http.Request) {
+// 	http.ServeFile(w, r, "./landing_page/index.html")
+// }

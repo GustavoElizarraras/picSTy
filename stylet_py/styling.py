@@ -18,7 +18,7 @@ def main():
     uploaded_image = sys.argv[1]
     selected_artwork = sys.argv[2]
     name_processed = sys.argv[1].split('/')[-1]
-    processed_path = '../go_web/processed_image/' + name_processed.split('.')[0] + '.png'
+    processed_path = '/picSTy/go_web/processed_image/' + name_processed.split('.')[0] + '.png'
     model = hub.load('https://tfhub.dev/google/magenta/arbitrary-image-stylization-v1-256/2')
     content = load_image(uploaded_image)
     style = load_image(selected_artwork)
