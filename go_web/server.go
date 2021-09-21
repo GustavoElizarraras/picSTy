@@ -26,6 +26,7 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 		uploadedImg string
 		files       string
 		command     string
+		out         []byte
 		// ssh         string
 	)
 
@@ -38,7 +39,6 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 	// Closing the file
 	defer file.Close()
-	// fmt.Fprintf(w, "%v", handler.Header)
 	// Coping the uploaded file into the server
 	f, err := os.OpenFile("./client_upload/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
@@ -47,6 +47,7 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 	defer f.Close()
 	io.Copy(f, file)
+	// string of the path for the uploaded image
 	uploadedImg = "/picSTy/go_web/client_upload/" + handler.Filename
 	// Processing which artwork will work with the style transfer
 	artworks := []string{
@@ -55,42 +56,47 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 		"starry", "swing", "vetheuil",
 	}
 
+	// processing the form values
 	r.ParseForm()
 	for _, s := range artworks {
+		// validating the string of the selected image
 		if s == r.Form.Get("art") {
+			// path to the selected artwork
 			selectedImg = "/picSTy/go_web/artworks/" + s + ".jpg"
 		}
 	}
-
+	// this variable has the arguments for the python scripts
 	files = uploadedImg + " " + selectedImg
-	fmt.Println(files)
-	var o []byte
+
+	// SSH connection to the Python container
 	client, err := goph.New("root", "172.19.0.3", goph.Password("root"))
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(client)
 	defer client.Close()
+
 	command = format("python3 /picSTy/stylet_py/styling.py {{.}}", files)
 	// Execute your command.
-	fmt.Println(command)
-	o, err = client.Run(command)
-	fmt.Println(string(o))
+
+	out, err = client.Run(command)
+	// In case of an error within the Python container, this allows to print it in the terminal
+	fmt.Println(string(out))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	type Page struct {
+	// Execute a template for the HandleFunc
+	type StyledPage struct {
 		Img string
 	}
-	x := Page{Img: strings.Split(handler.Filename, ".")[0]}
-	fmt.Println(x)
-	t, err := template.ParseFiles("template/styled.html")
+	// getting the name of the picture, without the extension, for the struct field Img
+	processedImg := StyledPage{Img: strings.Split(handler.Filename, ".")[0]}
+
+	styledTemplate, err := template.ParseFiles("template/styled.html")
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	t.Execute(w, x)
+	styledTemplate.Execute(w, processedImg)
 }
 
 func main() {
@@ -116,7 +122,3 @@ func main() {
 	}
 
 }
-
-// func landingHandler(w http.ResponseWriter, r *http.Request) {
-// 	http.ServeFile(w, r, "./landing_page/index.html")
-// }
