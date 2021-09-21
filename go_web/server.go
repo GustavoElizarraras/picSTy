@@ -24,10 +24,9 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	var (
 		selectedImg string
 		uploadedImg string
-		files       string
-		command     string
-		out         []byte
-		// ssh         string
+		pythonArgs  string
+		commandSSH  string
+		outSSH      []byte
 	)
 
 	// Getting the user file
@@ -66,7 +65,7 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	// this variable has the arguments for the python scripts
-	files = uploadedImg + " " + selectedImg
+	pythonArgs = uploadedImg + " " + selectedImg
 
 	// SSH connection to the Python container
 	client, err := goph.New("root", "172.19.0.3", goph.Password("root"))
@@ -75,12 +74,12 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 	defer client.Close()
 
-	command = format("python3 /picSTy/stylet_py/styling.py {{.}}", files)
+	commandSSH = format("python3 /picSTy/stylet_py/styling.py {{.}}", pythonArgs)
 	// Execute your command.
 
-	out, err = client.Run(command)
+	outSSH, err = client.Run(commandSSH)
 	// In case of an error within the Python container, this allows to print it in the terminal
-	fmt.Println(string(out))
+	fmt.Println(string(outSSH))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -109,11 +108,12 @@ func main() {
 		IdleTimeout:  120 * time.Second,
 	}
 
+	// Landing page
 	fs := http.FileServer(http.Dir("."))
-
 	http.Handle("/", fs)
-
+	// Handling the form of the landing page
 	http.HandleFunc("/styled", uploadImage)
+	// Serving the web server
 	err := s.ListenAndServe()
 	if err != nil {
 		if err != http.ErrServerClosed {
