@@ -1,9 +1,9 @@
 # picSTy
 This project is about an Style Transfer Web App using Golang for the web services and Python for the DL model.
 
-## Check the Wiki!
+## Check the Github Wiki!
 
-Technologies used: 
+### Technologies used: 
 <table>
 <tr>
     <td><img src="https://i1.wp.com/www.clubdetecnologia.net/wp-content/uploads/2017/11/tensorflow-logo.png?fit=256%2C256&ssl=1" width="310" height="170"></img></td>
