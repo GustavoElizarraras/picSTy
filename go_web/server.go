@@ -19,35 +19,33 @@ func format(s string, v interface{}) string {
 	return b.String()
 }
 
-// Uploading user image
-func uploadImage(w http.ResponseWriter, r *http.Request) {
-	var (
-		selectedImg string
-		uploadedImg string
-		pythonArgs  string
-		commandSSH  string
-		outSSH      []byte
-	)
-
+func userFileForm(r *http.Request) (string, string) {
 	// Getting the user file
 	r.ParseMultipartForm(32 << 20)
 	// Form with name=imgFile
 	file, handler, err := r.FormFile("imgFile")
 	if err != nil {
-		fmt.Println(err)
+		log.Fatal(err)
 	}
 	// Closing the file
 	defer file.Close()
 	// Coping the uploaded file into the server
 	f, err := os.OpenFile("./client_upload/"+handler.Filename, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
-		fmt.Println(err)
-		return
+		log.Fatal(err)
 	}
 	defer f.Close()
 	io.Copy(f, file)
-	// string of the path for the uploaded image
-	uploadedImg = "/picSTy/go_web/client_upload/" + handler.Filename
+	// path for the uploaded image
+	uploadedImg := "/picSTy/go_web/client_upload/" + handler.Filename
+	// getting the name of the picture, without the extension, for the struct field Img in main
+	userFileName := strings.Split(handler.Filename, ".")[0]
+	return uploadedImg, userFileName
+}
+
+func selectArtwork(r *http.Request) string {
+
+	var selectedArt string
 	// Processing which artwork will work with the style transfer
 	artworks := []string{
 		"alebrijes", "estanque", "guernica",
@@ -61,12 +59,17 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 		// validating the string of the selected image
 		if s == r.Form.Get("art") {
 			// path to the selected artwork
-			selectedImg = "/picSTy/go_web/artworks/" + s + ".jpg"
+			selectedArt = "/picSTy/go_web/artworks/" + s + ".jpg"
 		}
 	}
-	// this variable has the arguments for the python scripts
-	pythonArgs = uploadedImg + " " + selectedImg
+	return selectedArt
+}
 
+func sshPythonContainer(pythonArgs string) {
+	var (
+		commandSSH string
+		outSSH     []byte
+	)
 	// SSH connection to the Python container
 	client, err := goph.New("root", "172.19.0.3", goph.Password("root"))
 	if err != nil {
@@ -83,19 +86,42 @@ func uploadImage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
 
-	// Execute a template for the HandleFunc
+func styledImgTemplate(w http.ResponseWriter, userFileName string) {
+	// Execute template/styled.html
 	type StyledPage struct {
+		// Image name
 		Img string
 	}
-	// getting the name of the picture, without the extension, for the struct field Img
-	processedImg := StyledPage{Img: strings.Split(handler.Filename, ".")[0]}
-
+	processedImg := StyledPage{Img: userFileName}
+	// Parsing the styled user image name
 	styledTemplate, err := template.ParseFiles("template/styled.html")
 	if err != nil {
 		log.Fatal(err)
 	}
 	styledTemplate.Execute(w, processedImg)
+}
+
+// Uploading user image
+func formStyleHandler(w http.ResponseWriter, r *http.Request) {
+	var (
+		selectedArtwork string
+		uploadedImg     string
+		pythonArgs      string
+		userFileName    string
+	)
+	// Processing the client picture, getting the path and the name with no extension
+	uploadedImg, userFileName = userFileForm(r)
+	// Getting the selected picture from the HTML form
+	selectedArtwork = selectArtwork(r)
+	// this variable has the arguments for the python scripts
+	pythonArgs = uploadedImg + " " + selectedArtwork
+	// stablishing SSH connection to execute the python script for the neural style transfer
+	sshPythonContainer(pythonArgs)
+	// Executing the template
+	styledImgTemplate(w, userFileName)
+
 }
 
 func main() {
@@ -108,11 +134,11 @@ func main() {
 		IdleTimeout:  120 * time.Second,
 	}
 
-	// Landing page
+	// Landing page, serving the index.html in the go_web directory
 	fs := http.FileServer(http.Dir("."))
 	http.Handle("/", fs)
 	// Handling the form of the landing page
-	http.HandleFunc("/styled", uploadImage)
+	http.HandleFunc("/styled", formStyleHandler)
 	// Serving the web server
 	err := s.ListenAndServe()
 	if err != nil {
